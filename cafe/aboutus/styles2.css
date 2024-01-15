@@ -1,0 +1,43 @@
+
+*{
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+
+header {
+    background-color: #333; /* Use RGBA for opacity */
+    background-size: cover;
+    background-position: center;
+    color: white;
+    text-align: center;
+    padding: 30px;
+    height: 30vh;
+}
+
+.about-section {
+    margin: 10px;
+}
+
+.about-content {
+    display: flex; /* Use flexbox */
+    justify-content: space-between; /* Space between text and image */
+}
+
+.text-content {
+    flex: 1; /* Takes up the available space */
+    margin-right: 20px; /* Adjust as needed for spacing */
+}
+
+.image-content img {
+    max-width: 70%;
+    max-height:70%; /* Ensure the image doesn't overflow its container */
+    height: auto;
+}
+
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    width: 100%;
+}
