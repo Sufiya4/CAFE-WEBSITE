@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kaffeine - Table Reservation</title>
+    <style>
+        body {
+            font-family: 'Raleway', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('https://archello.s3.eu-central-1.amazonaws.com/images/2023/09/25/k-studio-casa-cook-chania--domes-zeen-chania--private-houses-archello.1695619661.8884.jpg') center/cover no-repeat fixed;
+        }
+
+        header {
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            text-align: center;
+            padding: 1em;
+        }
+
+        section {
+            margin: 20px;
+            color: #333;
+        }
+
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s ease-in-out;
+        }
+
+        form:hover {
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #333;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #555;
+        }
+
+        .confirmation,
+        .payment-container {
+            max-width: 400px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            display: none;
+        }
+
+        .confirmation h2,
+        .payment-container h2 {
+            color: #333;
+        }
+        .confirmation li {
+            list-style: none; 
+        }
+
+        .confirmation li a {
+            text-decoration: none;
+            color: white;
+            display: inline-block;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            background-color: #333;
+        }
+
+        .payment-methods {
+            display: flex;
+            flex-direction: column;
+            margin-top: 20px;
+        }
+
+        .payment-method {
+            margin-bottom: 10px;
+        }
+
+        .payment-method input {
+            margin-right: 5px;
+        }
+
+        .payment-container input[type="radio"] {
+            display: none;
+        }
+
+        .payment-container label {
+            cursor: pointer;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            transition: background-color 0.3s ease-in-out;
+            display: inline-block;
+        }
+
+        .payment-container input[type="radio"]:checked+label {
+            background-color: #333;
+            color: white;
+        }
+
+        .payment-container p {
+            margin-top: 10px;
+            color: #333;
+        }
+
+        .payment-container button {
+            background-color: #333;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .payment-container button:hover {
+            background-color: #555;
+        }
+
+        .bill-details {
+            margin-top: 20px;
+        }
+
+        .bill-details p {
+            color: #333;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>Crafting Memories, One Table at a Time – Book Yours Now!</h1>
+    </header>
+
+    <section>
+        <div id="formContainer">
+            <form id="bookingForm">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+
+                <label for="phone">Phone:</label>
+                <input type="tel" id="phone" name="phone" required>
+
+                <label for="date">Date:</label>
+                <input type="date" id="date" name="date" required>
+
+                <label for="time">Time:</label>
+                <input type="time" id="time" name="time" required>
+
+                <label for="partySize">Party Size:</label>
+                <select id="partySize" name="partySize" required>
+                    <option value="1">1 person</option>
+                    <option value="2">2 people</option>
+                    <option value="3">3 people</option>
+                    <option value="4">4 people</option>
+                    <option value="5+">5+ people</option>
+                </select>
+
+                <button type="button" onclick="showPayment()">Book Table</button>
+            </form>
+        </div>
+
+        <div class="confirmation" id="confirmationMessage">
+            <h2>Thanks for booking a table!</h2>
+            <p id="reservationNumberText"></p>
+            <p>We look forward to serving you.</p>
+            <li><a href = "home.html">Explore our homepage by clicking here</a></li>
+        </div>
+
+        <div class="payment-container" id="paymentContainer">
+            <div class="payment-form">
+                <span class="close-payment" onclick="closePayment()">X</span>
+                <h2>Reservation Payment</h2>
+
+                <div class="bill-details" id="billDetails"></div>
+
+                <div class="payment-methods">
+                    <div class="payment-method">
+                        <input type="radio" id="creditCard" name="paymentMethod" value="creditCard">
+                        <label for="creditCard">Credit Card</label>
+                    </div>
+
+                    <div class="payment-method">
+                        <input type="radio" id="paypal" name="paymentMethod" value="paypal">
+                        <label for="paypal">PayPal</label>
+                    </div>
+
+                    <div class="payment-method">
+                        <input type="radio" id="googlePay" name="paymentMethod" value="googlePay">
+                        <label for="googlePay">Google Pay</label>
+                    </div>
+                </div>
+
+                <button type="button" onclick="processPayment()">Process Payment</button>
+            </div>
+        </div>
+
+    </section>
+
+    <script>
+        function showPayment() {
+            document.getElementById('formContainer').style.display = 'none';
+            document.getElementById('paymentContainer').style.display = 'block';
+
+            // Display reservation bill
+            const partySize = document.getElementById('partySize').value;
+            let price = 0;
+
+            switch (partySize) {
+                case '1':
+                    price = 50;
+                    break;
+                case '2':
+                    price = 80;
+                    break;
+                case '3':
+                    price = 120;
+                    break;
+                case '4':
+                    price = 150;
+                    break;
+                default:
+                    price = 200;
+                    break;
+            }
+
+            const billDetails = document.getElementById('billDetails');
+            billDetails.innerHTML = `<p>Reservation Bill: $${price} (${partySize} people)</p>`;
+        }
+
+        function closePayment() {
+            document.getElementById('paymentContainer').style.display = 'none';
+            document.getElementById('formContainer').style.display = 'block';
+        }
+
+        function processPayment() {
+            const selectedMethod = document.querySelector('input[name="paymentMethod"]:checked');
+
+            if (selectedMethod) {
+                const paymentMethod = selectedMethod.value;
+                const billDetails = document.getElementById('billDetails');
+                const partySize = document.getElementById('partySize').value;
+
+                let price = 0;
+                switch (partySize) {
+                    case '1':
+                        price = 50;
+                        break;
+                    case '2':
+                        price = 80;
+                        break;
+                    case '3':
+                        price = 120;
+                        break;
+                    case '4':
+                        price = 150;
+                        break;
+                    default:
+                        price = 200;
+                        break;
+                }
+
+                billDetails.innerHTML = `<p>Reservation Bill: $${price} (${partySize} people) - Selected payment method: ${paymentMethod}`;
+
+                const reservationNumber = Math.floor(Math.random() * 1000000) + 1;
+
+                document.getElementById('confirmationMessage').style.display = 'block';
+                document.getElementById('reservationNumberText').textContent = `Reservation Number: ${reservationNumber}`;
+                document.getElementById('paymentContainer').style.display = 'none';
+            } else {
+                alert('Please select a payment method.');
+            }
+        }
+    </script>
+</body>
+
+</html>
