@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Quick Park</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: purple;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: url("https://www.versionx.in/wp-content/uploads/2020/03/smart-parking.jpg") center/cover no-repeat;
+            background-blend-mode: overlay;
+            position: relative;
+        }
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black overlay */
+        }
+        .dialog-box {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            position: relative;
+            z-index: 1; /* Place above the overlay */
+            max-width: 80%; /* Adjust the maximum width as needed */
+        }
+        .message {
+            font-size: 30px; /* Adjust font size as needed */
+            font-weight: bold; /* Increase font thickness */
+            margin-bottom: 10px;
+            color: #333; /* Darker text color for better contrast */
+        }
+        .tagline {
+            font-size: 18px;
+            color: #f39c12;
+            margin-bottom: 20px;
+        }
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .button {
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+    </style>
+
+</head>
+<body>
+    <div class="container">
+        <div class="overlay"></div>
+        <div class="dialog-box">
+            <div class="message">
+                Welcome to QuickPark
+            </div>
+            <div class="tagline">
+                Your Parking Solution at Your Fingertips
+            </div>
+            <div class="button-container">
+                <button onclick="redirectToPage('/signup')" class="button">I'm a User</button>
+                <button onclick="redirectToPage('/adminsignin')"class="button">I'm an Admin</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function redirectToPage(pageurl) {
+            window.location.href = pageurl; // Redirect to the specified page
+        }
+    </script>
+</body>
+
+</html>

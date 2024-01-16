@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <style>
+        body {
+            font-family:Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #00356e;
+            margin-left: 110px;
+        }
+
+        .profile-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
+            margin-left: 400px;
+        }
+
+        #upper-right-image {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 100px;
+            height: auto;
+            z-index: 9999;
+        }
+
+        .profile-picture {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .profile-picture img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-picture input {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .profile-details {
+            text-align: center;
+        }
+
+        .profile-details div {
+            margin-bottom: 10px;
+        }
+
+        .profile-details label {
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.2s ease-in-out;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #editForm {
+            display: none;
+            margin-top: 20px;
+        }
+
+        #editForm h2 {
+            margin-bottom: 10px;
+            color: #00356e;
+        }
+
+        #editForm form {
+            display: flex;
+            flex-direction: column;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+
+        #editForm label {
+            margin-bottom: 5px;
+        }
+
+        #editForm input {
+            padding: 5px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            transition: border-color 0.2s ease-in-out;
+        }
+
+        #editForm input:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+
+        #editForm button[type="button"] {
+            background-color: #dc3545;
+        }
+
+        #editForm button[type="submit"] {
+            margin-right: 10px;
+            background-color: #28a745;
+        }
+
+        #editForm button[type="submit"],
+        #editForm button[type="button"] {
+            width: 100px;
+            margin: 10px auto;
+        }
+
+        /* Media query for responsive layout */
+        @media (max-width: 768px) {
+            .profile-container {
+                padding: 10px;
+            }
+
+            #editForm form {
+                max-width: none;
+            }
+
+            #editForm button {
+                width: 100%;
+            }
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 250px;
+            height: 100%;
+            background-color: #0d0153;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start; /* Left-align content vertically */
+            justify-content: center; /* Center content horizontally */
+            padding-top: 20px;
+            z-index: 1000; /* Ensure sidebar is above other content */
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .menu {
+            list-style-type: none;
+            padding: 20px;
+            width: 100%; /* Ensure menu takes full width of sidebar */
+        }
+
+        .menu ul {
+            padding-left: 0; /* Remove default list padding */
+            margin-left: 0; /* Remove default list margin */
+        }
+
+        .menu li {
+            margin-bottom: 15px;
+            list-style-type: none;
+        }
+
+        .menu li a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            display: block; /* Ensure each link is a block element */
+            padding: 5px 0; /* Add padding for spacing */
+        }
+
+        .selected-link {
+            font-weight: bold;
+        }
+        #upper-right-image {
+            position: fixed;
+            border: 2px solid #01003f;
+            top: 6px;
+            right: 20px;
+            width: 100px; /* Adjust the width as needed */
+            height: auto; /* This will maintain the aspect ratio of the image */
+            z-index: 9999; /* Use a high z-index to ensure the image is above other elements */
+        }
+    </style>
+</head>
+<body>
+    <h1>User Profile</h1>
+    <img src="https://static.vecteezy.com/system/resources/previews/000/623/239/original/auto-car-logo-template-vector-icon.jpg" alt="Image" id="upper-right-image">
+    <div class="sidebar">
+        <div class="menu">
+            <ul>
+                <li><a href="/home">Home</a></li>
+                <li><a href="#" class="selected-link">Profile</a></li>
+                <li><a href="/booking_history">Booking History</a></li>
+                <li><a href = "/cancel_booking">Cancel Booking</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="profile-container">
+        <img src="https://static.vecteezy.com/system/resources/previews/000/623/239/original/auto-car-logo-template-vector-icon.jpg" alt="Image" id="upper-right-image">
+        <div class="profile-picture">
+            <img src="https://icon-library.com/images/default-profile-icon/default-profile-icon-6.jpg" alt="Profile Picture" id="profilePicturePreviewEdit">
+            <input type="file" id="profilePictureInput" accept="image/*" onchange="previewProfilePictureEdit(event)">
+        </div>
+        <div class="profile-details">
+            <div>
+                <label for="fullName">Full Name:</label>
+                <span id="fullName">{{user.fullname}}</span>
+            </div>
+            <div>
+                <label for="vehicleNumber">Vehicle Number:</label>
+                <span id="vehicleNumber">{{user.vehicle_number}}</span>
+            </div>
+            <div>
+                <label for="contactNumber">Contact Number:</label>
+                <span id="contactNumber">{{user.phone}}</span>
+            </div>
+            <div>
+                <label for="membershipDuration">Membership Duration:</label>
+                <span id="membershipDuration">2 years</span>
+            </div>
+            <button id="editProfileBtn" >Edit Profile</button>
+        </div>
+    </div>
+    <div id="editForm" style = "display: none">
+        <h2>Edit Profile</h2>
+        <form id = "profileForm">
+            <div>
+                <label for="fullNameInput">Full Name:</label>
+                <input type="text" id="fullNameInput" required>
+            </div>
+            <div>
+                <label for="vehicleNumberInput">Vehicle Number:</label>
+                <input type="text" id="vehicleNumberInput" required>
+            </div>
+            <div>
+                <label for="contactNumberInput">Contact Number:</label>
+                <input type="text" id="contactNumberInput" required>
+            </div>
+            <div>
+                <label for="membershipDurationInput">Membership Duration:</label>
+                <input type="text" id="membershipDurationInput" required>
+            </div>
+            <div>
+                <label for="profilePictureInput">Profile Picture:</label>
+                <input type="file" id="profilePictureInputedit" accept="image/*" onchange="previewProfilePictureEdit(event)">
+                <img id="previewProfileImage" src="https://icon-library.com/images/default-profile-icon/default-profile-icon-6.jpg" alt="Preview Profile Picture" style="display: none;">
+            </div>
+            <button type="submit" >Save</button>
+            <button type="button" id="cancelEditBtn">Cancel</button>
+        </form>
+    </div>
+
+    <script>
+        const editProfileBtn = document.getElementById('editProfileBtn');
+        const profileForm = document.getElementById('profileForm');
+        const cancelEditBtn = document.getElementById('cancelEditBtn');
+        const editForm = document.getElementById('editForm');
+        const profileDetails = document.querySelector('.profile-details');
+
+
+        // Function to handle "Edit Profile" button click
+        editProfileBtn.addEventListener('click', () => {
+            profileDetails.style.display = 'none';
+            editForm.style.display = 'block';
+            profileDetails.style.display = 'none';
+
+
+            // Populate form fields with user data from the rendered HTML
+            const fullName = document.getElementById('fullName').textContent;
+            const vehicleNumber = document.getElementById('vehicleNumber').textContent;
+            const contactNumber = document.getElementById('contactNumber').textContent;
+
+            document.getElementById('fullNameInput').value = document.getElementById('fullName').textContent;
+            document.getElementById('vehicleNumberInput').value = document.getElementById('vehicleNumber').textContent;
+            document.getElementById('contactNumberInput').value = document.getElementById('contactNumber').textContent;
+            document.getElementById('membershipDurationInput').value = document.getElementById('membershipDuration').textContent;
+        });
+
+        // Function to handle "Cancel" button click in the edit form
+        cancelEditBtn.addEventListener('click', () => {
+            editForm.style.display = 'none';
+            profileDetails.style.display = 'block';
+        });
+
+        // Function to handle form submission
+        profileForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const fullName = document.getElementById('fullNameInput').value;
+            const vehicleNumber = document.getElementById('vehicleNumberInput').value;
+            const contactNumber = document.getElementById('contactNumberInput').value;
+            const membershipDuration = document.getElementById('membershipDurationInput').value;
+
+            const updatedProfile = {
+                fullName: fullName,
+                vehicleNumber: vehicleNumber,
+                contactNumber: contactNumber,
+                membershipDuration: membershipDuration
+            };
+
+            try {
+                const response = await fetch('/update-profile', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(updatedProfile)
+                });
+
+                const data = await response.json();
+                if (data.message === 'Profile updated successfully') {
+                    // Redirect to the profile page or update the UI as needed
+                    window.location.href = '/profile'; // Change to the actual URL
+                }else {
+                    console.log('Error updating profile');
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        });
+    </script>
+</body>
+</html>

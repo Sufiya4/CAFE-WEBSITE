@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sign In Page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 300px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            text-align: center;
+            box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+        }
+
+        h1 {
+            margin: 0;
+            margin-bottom: 20px;
+            color: #0c498a;
+        }
+
+        .background-image-container {
+            background-image: url("https://www.versionx.in/wp-content/uploads/2020/03/smart-parking.jpg");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -1;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        input {
+            width: 80%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            transition: border-color 0.2s ease-in-out;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+
+        #upper-right-image {
+            position: fixed;
+            border: 2px solid #01003f;
+            top: 6px;
+            right: 20px;
+            width: 100px; /* Adjust the width as needed */
+            height: auto; /* This will maintain the aspect ratio of the image */
+            z-index: 9999; /* Use a high z-index to ensure the image is above other elements */
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #error {
+            color: red;
+            margin-top: 10px;
+            display: none;
+        }
+
+        /* Add a class for displaying error messages */
+        .error-message {
+            color: red;
+            margin-top: 10px;
+        }
+        .password-container {
+            position: relative;
+        }
+
+        .password-toggle {
+            position: absolute;
+            top: 40%;
+            right: 25px;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="background-image-container"></div>
+    <div class="container">
+        <h1>Sign In</h1>
+        <img src="https://static.vecteezy.com/system/resources/previews/000/623/239/original/auto-car-logo-template-vector-icon.jpg" alt="Image" id="upper-right-image">
+
+        <!-- Add the form action and method for submitting the sign-in request -->
+        <form action="/adminsignin" method="post">
+            <label for="parkinglot_id">parkinglot_id:</label>
+            <input type="text" id="parkinglot_id" name="parkinglot_id" required>
+            <label for="password">Password:</label>
+            <div class="password-container">
+                <input type="password" id="password" name="password" required>
+                <span class="password-toggle" onclick="togglePasswordVisibility()">
+                    <i class="fas fa-eye" id="password-toggle-icon"></i>
+                </span>
+            </div>
+            <button type="submit">Sign In</button>
+        </form>
+        <!-- Display error message if authentication fails -->
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <p class="error-message">{{ messages[0] }}</p>
+            {% endif %}
+        {% endwith %}
+
+    </div>
+
+    <script>
+        function togglePasswordVisibility() {
+        var passwordField = document.getElementById("password");
+        var passwordToggleIcon = document.getElementById("password-toggle-icon");
+
+        if (passwordField.type === "password") {
+            passwordField.type = "text";
+            passwordToggleIcon.classList.remove("fa-eye");
+            passwordToggleIcon.classList.add("fa-eye-slash");
+        } else {
+            passwordField.type = "password";
+            passwordToggleIcon.classList.remove("fa-eye-slash");
+            passwordToggleIcon.classList.add("fa-eye");
+        }
+    }
+    </script>
+</body>
+</html>

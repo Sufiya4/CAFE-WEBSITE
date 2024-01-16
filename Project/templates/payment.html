@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Payment to QuickPark</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 50px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            background-color: darkred;
+            padding: 10px;
+            color: azure;
+        }
+
+        .bill-container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            padding-bottom: 80px;
+            border: 1px solid #ccc;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+        }
+
+        .bill-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .bill-item label {
+            font-weight: bold;
+        }
+
+        .bill-item span {
+            text-align: right;
+        }
+
+        .total {
+            margin-top: 20px;
+            text-align: right;
+            font-weight: bold;
+        }
+
+        .payment-methods {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .payment-method {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .payment-method label {
+            margin-left: 10px;
+        }
+
+        #upper-right-image {
+            position: fixed;
+            border: 2px solid #01003f;
+            top: 6px;
+            right: 20px;
+            width: 80px; /* Adjust the width as needed */
+            height: auto; /* This will maintain the aspect ratio of the image */
+            z-index: 9999; /* Use a high z-index to ensure the image is above other elements */
+        }
+
+        .btn {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            float: left;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Payment to QuickPark</h1>
+    <img src="https://static.vecteezy.com/system/resources/previews/000/623/239/original/auto-car-logo-template-vector-icon.jpg" alt="Image" id="upper-right-image">
+    <div class="bill-container">
+        <div class="bill-item">
+            <label>Date:</label>
+            <span id="bookingDate">{{booking_date}}</span>
+        </div>
+        <div class="bill-item">
+            <label>Time:</label>
+            <span id="bookingTime">{{booking_time}}</span>
+        </div>
+        <div class="bill-item">
+            <label>Plot ID:</label>
+            <span id="plotId">{{plotId}}</span>
+        </div>
+        <div class="bill-item">
+            <label>Number of Hours:</label>
+            <span id="hours">{{hours}}</span>
+        </div>
+        <div class="bill-item">
+            <label>Principal Amount:</label>
+            <span id="principalAmount">&#x20B9;{{principal}}</span>
+        </div>
+        <div class="bill-item">
+            <label>Additional Amount per Hour:</label>
+            <span id="additionalAmount">&#x20B9;{{additional}}</span>
+        </div>
+        <div class="bill-item">
+            <label>Total Amount:</label>
+            <span id="totalAmount">&#x20B9;{{total_amount}}</span>
+        </div>
+        <div class="payment-methods">
+            <div class="payment-method">
+                <input type="radio" name="paymentMethod" value="creditCard" id="creditCard">
+                <label for="creditCard">Credit Card</label>
+            </div>
+            <div class="payment-method">
+                <input type="radio" name="paymentMethod" value="paypal" id="paypal">
+                <label for="paypal">PayPal</label>
+            </div>
+        </div>
+        <div class="total">
+            <label>Total:</label>
+            <span id="total">{{total_amount}}</span>
+        </div>
+            <button class="btn" type="button" onclick="payNow()">Pay Now</button>
+        </div>
+
+    <script>
+        function payNow() {
+            const selectedMethod = document.querySelector('input[name="paymentMethod"]:checked');
+            if (!selectedMethod) {
+                alert('Please select a payment method.');
+                return;
+            }
+
+            // Assume payment is successful and store booking details in MongoDB
+            const bookingDetails = {
+                bookingDate: "{{booking_date}}",
+                bookingTime: "{{booking_time}}",
+                plotId: "{{plotId}}",
+                hours: "{{hours}}",
+                totalAmount: "{{total_amount}}",
+                paymentMethod: selectedMethod.value,
+                userEmail: "{{user_email}}"
+            };
+
+            // You can use fetch or any other method to send the data to your backend
+            fetch('/update_availability', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(bookingDetails)
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Redirect to a success page or show a confirmation message
+                alert('Payment successful! Booking details have been saved.');
+                window.location.href = '/home'; // Redirect to success page
+
+            })
+            .catch(error => {
+                console.error('Error storing booking details:', error);
+                alert('An error occurred while processing your payment.');
+            });
+        }
+    </script>
+</body>
+</html>
