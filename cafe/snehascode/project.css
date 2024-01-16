@@ -1,0 +1,299 @@
+*{
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+    text-decoration: none;
+    list-style: none;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    color: black;
+  }
+  
+  .container{
+    max-width: 1200px;
+  }
+  .headerbar{
+    display: none;
+  
+  }
+  .searchicon{
+    display: block;
+  }
+  .logo{
+    width: 30px;
+    height: 5px;
+    
+    
+  
+  }
+  .header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 40px;
+    padding: 0 7vw;
+    background-color: bisque;
+    border-bottom: 2px solid yellow;
+    box-shadow: 0 20px 20px orange;
+  }
+  .bar{
+    display: none;
+  }
+  .header ul{
+    display: flex;
+    align-items: center;
+  }
+  .header ul li:hover{
+    color: pink;
+  }
+  .nav ul li{
+    padding: 0 15px;
+    font-size: 14px;
+    font-weight: 14px;
+  }
+  .account{
+    flex:0.1
+  }
+  .account ul{
+    display: flex;
+    justify-content: end;
+  }
+  .account ul li{
+    padding: 0 15px;
+    font-size: 18px;
+  }
+  .bar i:hover{
+    color:rgb(205, 205, 238)
+  }
+  .search{
+    display: none;
+    width: 200px;
+    justify-content: center;
+  
+  }
+  .search input{
+    width: 100%;
+    outline: none;
+    border: none;
+    padding: 5px;
+  }
+  .searchicon{
+    background-color: blanchedalmond;
+    display: block;
+  }
+  @media only screen and (max-width: 768px){
+    .header .nav,.header .account{
+      display: none;
+    }
+    .search{
+      width:60px;
+    }
+    .bar{
+      display: block;
+      cursor: pointer;
+    }
+    .headerbar{
+      overflow: hidden;
+      display: flex;
+      flex-direction:column ;
+      position: fixed;
+       bottom: 0;
+      top: 0;
+      width: 100%;
+      right: -100%;
+      transition: all 0.5s;
+    background-color: rgb(251, 246, 173);
+  
+    }
+    .headerbar .account, .headerbar .nav{
+      display: block;
+      font-size:18px;
+  
+    }
+    .bar .fa-xmark{
+      display: none;
+      top:20px;
+      right:5w;
+      position: absolute;
+      font-size: 25px;
+    }
+    .headerbar .nav ul{
+      flex-direction: column;
+      margin-top: 10px;
+      text-align: center;
+  
+    }
+    .headerbar .nav li{
+      width: 96vw;
+      margin: 10px 0;
+      padding: 15px 30px;
+      box-shadow:0 2px 15px papayawhip ;
+      font-size: 15px;
+      margin-top: 5px;
+    }
+    .headerbar .account{
+      line-height: 40px;
+      margin-top: 60px;
+      background-color:rgb(205, 205, 238) ;
+      padding: 15px;
+  
+    }
+    .headerbar .account ul{
+      justify-content: space-between;
+  
+    }
+  }
+  .home{
+    background-color: aliceblue;
+    padding: 0 7vw;
+  }
+  .main_slide{
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap-reverse;
+  }
+  .main_slide div:nth-child(2){
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    padding-top: 40px;
+  }
+  .main_slide div:nth-child(1){
+   padding-top: 20px;
+   flex: 1;
+   font-size: 40px;
+  }
+  .main_slide div:nth-child(1) p{
+     font-size: 13px;
+     padding: 20px 0;
+  }
+  .main_slide div:nth-child(1) span{
+    color:rgb(241, 167, 241);
+    text-decoration: underline;
+    text-underline-offset: 10px;
+    text-decoration-color: yellow;
+  }
+  .red_btn{
+    cursor:pointer;
+    margin-top: 20px;
+    width: 160px;
+    font-weight: bold;
+    color: aliceblue;
+    line-height: 50px;
+    background-color: rgb(253,77,8);
+    border-radius: 5px;
+    border: 1px solid orange;
+    box-shadow: 0 10px 15px rgba(250,120,60);
+    transition: all 0.2s;
+  }
+  .slider-wrapper .image-list{
+    display: grid;
+    gap:20px;
+    font-size: 0;
+    margin-bottom: 30px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    grid-template-columns: repeat(10,1fr);
+  }
+  .slider-wrapper .image-list::-webkit-scrollbar{
+  display: none;
+  }
+  .slider-wrapper .image-list .image-item{
+    width:325px;
+    height:400px;
+    object-fit: cover;
+    align-items: center;
+  }
+  .container .slider-scrollbar{
+    height:24px;
+    width:100%;
+    background: red;
+    display: flex;
+    align-items: center;
+  }
+  .slider-scrollbar .scrollbar-track{
+    height:2px;
+    width:100%;
+    background:#ccc;
+    position: relative;
+    border-radius: 4px;
+  }
+  .slider-scrollbar:hover .scrollbar-track{
+    height: 4px;
+  }
+  .container .slider-scrollbar-thumb{
+    height:100%;
+    position: absolute;
+    width:50%;
+    background: black;
+   border-radius: inherit;
+   cursor: grab;
+  
+  }
+  .slider-scrollbar .scrollbar-thumb:active{
+  cursor: grabbing;
+  height: 8px;
+  top:-2px;
+  }
+  .container .slider-scrollbar-thumb::after{
+    content:"" ;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top:-10px;
+    bottom: -10px;
+  }
+  .red_btn:hover{
+    background-color: white;
+    box-shadow: 0 2px 15px rgb(250,120,69);
+    border: 1px solid rgb(253,77,8);
+    color:rgb(253,77,8);
+  }
+  .food-item{
+    margin:70px 0;
+    padding: 20px 0;
+    background-color: white;
+    border-radius: 30px;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+  
+  }
+  .item{
+    width:160px;
+    padding: 20px;
+    text-align: center;
+  }
+  .item div{
+    height: 160px;
+  }
+  .item img{
+    width:170px;
+    margin-bottom:13px;
+  }
+  .item p{
+    font-size: 12px;
+    margin-top: 15px;
+    margin-bottom: 10px;
+  }
+  .white_btn{
+    cursor: pointer;
+    margin-top: 35px;
+    width:160px;
+    font-weight: bold;
+    color:orangered;
+    line-height: 50px;
+    border: 1px solid orange;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 2px 15px rgb(250,120,69);
+    transition: all 0.2s ;
+  }
+  .item .red_btn,.item .white_btn{
+    width: 120px;
+    line-height:35px;
+  }
+  .white_btn:hover{
+    color: aliceblue;
+    background-color: orange;
+    box-shadow: 0 10x 15px rgb(250,120,69);
+  }

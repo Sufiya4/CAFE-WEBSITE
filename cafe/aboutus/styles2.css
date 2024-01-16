@@ -3,34 +3,67 @@
     font-family:Arial, Helvetica, sans-serif;
 }
 
-
-header {
-    background-color: #333; /* Use RGBA for opacity */
-    background-size: cover;
-    background-position: center;
-    color: white;
-    text-align: center;
-    padding: 30px;
-    height: 30vh;
+body{
+    background-color: rgb(239, 239, 235);
+    align-items: center;
+    overflow-x: hidden;
 }
 
+
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 15px;
+    text-align: center;
+    position: fixed;
+    width: 110%;
+    top: 0;
+    z-index: 1000;
+    margin-left: 0;
+}
+
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin-right: 20px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #fff;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+nav ul li a:hover {
+    color: rgb(238, 238, 193);
+}
+
+
 .about-section {
-    margin: 10px;
+    margin: 100px;
+    align-items: center;
+    align-self: center;
 }
 
 .about-content {
-    display: flex; /* Use flexbox */
-    justify-content: space-between; /* Space between text and image */
+    display: flex; 
+    justify-content: space-between;
 }
 
 .text-content {
-    flex: 1; /* Takes up the available space */
-    margin-right: 20px; /* Adjust as needed for spacing */
+    flex: 1; 
+    margin-right: 20px; 
 }
 
 .image-content img {
     max-width: 70%;
-    max-height:70%; /* Ensure the image doesn't overflow its container */
+    max-height:70%; 
     height: auto;
 }
 

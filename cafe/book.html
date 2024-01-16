@@ -261,7 +261,7 @@
             }
 
             const billDetails = document.getElementById('billDetails');
-            billDetails.innerHTML = `<p>Reservation Bill: $${price} (${partySize} people)</p>`;
+            billDetails.innerHTML = `<p>Reservation Bill: Rs${price} (${partySize} people)</p>`;
         }
 
         function closePayment() {
@@ -296,7 +296,7 @@
                         break;
                 }
 
-                billDetails.innerHTML = `<p>Reservation Bill: $${price} (${partySize} people) - Selected payment method: ${paymentMethod}`;
+                billDetails.innerHTML = `<p>Reservation Bill: Rs${price} (${partySize} people) - Selected payment method: ${paymentMethod}`;
 
                 const reservationNumber = Math.floor(Math.random() * 1000000) + 1;
 
