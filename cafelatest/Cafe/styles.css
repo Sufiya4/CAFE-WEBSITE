@@ -22,6 +22,16 @@ header {
 
 .images{
     height:60%; width:60%;
+    animation: fadeIn 1s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
 }
 
 video {
