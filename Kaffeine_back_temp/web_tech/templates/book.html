@@ -83,6 +83,7 @@
         .payment-container h2 {
             color: #333;
         }
+
         .confirmation li {
             list-style: none;
         }
@@ -156,6 +157,7 @@
         .bill-details p {
             color: #333;
         }
+
         .time-slot {
             display: block;
             margin-top: 10px;
@@ -182,8 +184,9 @@
                 <input type="tel" id="phone" name="phone" required>
 
                 <label for="booking-date">Date:</label>
-            <select id="booking-date" required></select>
+                <select id="booking-date" required></select>
 
+                <!-- Time slots with lowercase values -->
                 <div class="time-slot">
                     <label for="morning">Morning (10:00 AM - 12:00 PM):</label>
                     <input type="radio" id="morning" name="time" value="morning" required>
@@ -210,11 +213,15 @@
                 </div>
 
                 <label for="tables">Tables:</label>
-                <button type="button" onclick="decreaseTables()">-</button>
-                <span id="tablesCount">1</span> tables (Max: <span id="maxTables">5</span>)
-                <button type="button" onclick="increaseTables()">+</button>
 
-                <button type="button" onclick="showPayment()">Book Table</button>
+                <!-- Button to fetch available tables -->
+                <button type="button" onclick="fetchAvailableTables()">Check Availability</button>
+
+                <!-- Display the count of tables -->
+                <span id="tablesCount" data-tables-count="1" style="display: none">1</span> tables (Max: <span id="maxTables" style="display: none">5</span>)
+                <button type="button"  id="decreaseTables" style="display: none">-</button>
+                <button type="button" id="increaseTables" style="display: none">+</button>
+                <button type="button" onclick="showPayment()" id="showPayment" style="display: none">Book Table</button>
             </form>
         </div>
 
@@ -255,8 +262,11 @@
 
     </section>
 
-    <script>
 
+    <script>
+            document.getElementById('decreaseTables').addEventListener('click', decreaseTables);
+            document.getElementById('increaseTables').addEventListener('click', increaseTables);
+            document.getElementById('showPayment').addEventListener('click', showPayment);
             fetch('/available_dates')
                 .then(response => response.json())
                 .then(data => {
@@ -270,102 +280,156 @@
                 function updateAvailableDates(dates) {
                     document.getElementById('booking-date').innerHTML = dates.map(date => `<option value="${date}">${date}</option>`).join('');
                 }
-        // Function to fetch available tables from MongoDB Atlas
-        async function fetchAvailableTables(date, timeSlot) {
-            try {
-                const response = await fetch('/available_tables', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    body: new URLSearchParams({
-                        date: date,
-                        time_slot: timeSlot,
-                    }),
-                });
-                const data = await response.json();
-                return data;
-            } catch (error) {
-                console.error('Error fetching available tables:', error);
-                return { error: 'Failed to fetch available tables' };
+
+            // Function to increase the number of tables
+            function increaseTables() {
+                const tablesCountElement = document.getElementById('tablesCount');
+                const maxTables = parseInt(tablesCountElement.getAttribute('max'));
+
+                let currentTables = parseInt(tablesCountElement.getAttribute('data-tables-count'));
+                if (currentTables < maxTables) {
+                    currentTables++;
+                    tablesCountElement.setAttribute('data-tables-count', currentTables);
+                    tablesCountElement.textContent = currentTables;
+                }
             }
-        }
 
-        // Function to update table data on the form
-        async function updateTableData() {
-            try {
-                const date = document.getElementById('booking-date').value;
-                const timeSlot = document.querySelector('input[name="time"]:checked').value;
+            // Function to decrease the number of tables
+            function decreaseTables() {
+                const tablesCountElement = document.getElementById('tablesCount');
 
-                const { availableTables, maxTables } = await fetchAvailableTables(date, timeSlot);
-
-                document.getElementById('tablesCount').textContent = 1;
-                document.getElementById('maxTables').textContent = availableTables;
-
-                // Set the maximum value for the number of tables
-                document.getElementById('tablesCount').setAttribute('max', availableTables);
-
-            } catch (error) {
-                console.error('Error updating table data:', error);
+                let currentTables = parseInt(tablesCountElement.getAttribute('data-tables-count'));
+                if (currentTables > 1) {
+                    currentTables--;
+                    tablesCountElement.setAttribute('data-tables-count', currentTables);
+                    tablesCountElement.textContent = currentTables;
+                }
             }
-        }
 
-        // Function to display the payment container
-        async function showPayment() {
-            await updateTableData(); // Ensure table data is up-to-date
-            document.getElementById('formContainer').style.display = 'none';
-            document.getElementById('paymentContainer').style.display = 'block';
+            // Function to fetch available tables from MongoDB Atlas
+            async function fetchAvailableTables() {
+                try {
+                    const date = document.getElementById('booking-date').value;
+                    const timeSlot = document.querySelector('input[name="time"]:checked').value;
+                    console.log(date)
+                    console.log(timeSlot)
+                    const response = await fetch('/available_tables', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                                date: date,
+                                time_slot: timeSlot,
+                        }),
+                    });
 
-            // Display reservation bill
-            const price = 150; // Adjust pricing based on your requirements
+                    const data = await response.json();
+                    console.log(data);
 
-            const billDetails = document.getElementById('billDetails');
-            billDetails.innerHTML = `<p>Reservation Bill: Rs${price} (1 table)</p>`;
-        }
+                    if (data.available_tables !== undefined) {
+                        document.getElementById('maxTables').textContent = data.available_tables;
+                        document.getElementById('tablesCount').textContent = 1;
+                        document.getElementById('tablesCount').setAttribute('max', data.available_tables);
+                        document.getElementById('tablesCount').style.display = 'inline-block';
+                        document.getElementById('maxTables').style.display = 'inline-block';
+                        document.getElementById('decreaseTables').style.display = 'inline-block';
+                        document.getElementById('increaseTables').style.display = 'inline-block';
+                        document.getElementById('showPayment').style.display = 'inline-block';
 
-        // Function to close the payment container
-        function closePayment() {
-            document.getElementById('paymentContainer').style.display = 'none';
-            document.getElementById('formContainer').style.display = 'block';
-        }
+                    } else {
+                        alert(`Failed to fetch available tables for the selected time slot. Please try again.`);
+                    }
+                } catch (error) {
+                    console.error('Error fetching available tables:', error);
+                    alert('Failed to fetch available tables. Please try again.');
+                }
+            }
+
+
+            // Function to update table data on the form
+            async function updateTableData() {
+                try {
+                    const date = document.getElementById('booking-date').value;
+                    const timeSlot = document.querySelector('input[name="time"]:checked').value;
+
+                    const { availableTables, maxTables } = await fetchAvailableTables(date, timeSlot);
+
+                    document.getElementById('tablesCount').textContent = 1;
+                    document.getElementById('maxTables').textContent = availableTables;
+
+                    // Set the maximum value for the number of tables
+                    document.getElementById('tablesCount').setAttribute('max', availableTables);
+
+                } catch (error) {
+                    console.error('Error updating table data:', error);
+                }
+            }
+            // Function to display the payment container
+            async function showPayment() {
+                document.getElementById('formContainer').style.display = 'none';
+                document.getElementById('paymentContainer').style.display = 'block';
+                const tablesCount = parseInt(document.getElementById('tablesCount').getAttribute('data-tables-count'));
+                console.log(tablesCount);
+                // Display reservation bill
+                const price = 150; // Adjust pricing based on your requirements
+                var price1 = 150 * tablesCount;
+                const billDetails = document.getElementById('billDetails');
+                billDetails.innerHTML = `<p>Reservation Bill: Rs${price1} ${tablesCount}</p>`;
+            }
+
+            // Function to close the payment container
+            function closePayment() {
+                document.getElementById('paymentContainer').style.display = 'none';
+                document.getElementById('formContainer').style.display = 'block';
+            }
 
         // Function to process payment and display confirmation
-        async function processPayment() {
+    async function processPayment() {
+        try {
+            const date = document.getElementById('booking-date').value;
+            const timeSlot = document.querySelector('input[name="time"]:checked').value;
+            const tablesCount = parseInt(document.getElementById('tablesCount').getAttribute('data-tables-count'));
+            console.log(tablesCount)
+
             // After payment is processed, call the store_booking route
             const bookingDetails = {
                 name: document.getElementById('name').value,
                 email: document.getElementById('email').value,
                 phone: document.getElementById('phone').value,
-                date: document.getElementById('booking-date').value,
-                time_slot: document.getElementById('time').value,
-                tables: document.getElementById('tablesCount').value,
+                date: date,
+                time_slot: timeSlot,
+                tables: tablesCount,  // Use the actual tables count
             };
 
-            try {
-                const response = await fetch('/store_bookings', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(bookingDetails),
-                });
-                const data = await response.json();
+            const response = await fetch('/store_bookings', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(bookingDetails),
+            });
 
-                if (data.success) {
-                    // Display confirmation message
-                    document.getElementById('confirmationMessage').style.display = 'block';
-                    document.getElementById('reservationNumberText').textContent = `Reservation Number: ${data.reservation_number}`;
-                    document.getElementById('paymentContainer').style.display = 'none';
-                } else {
-                    console.error('Error storing booking details:', data.error);
-                    alert('Failed to store booking details. Please try again.');
-                }
-            } catch (error) {
-                console.error('Error processing payment:', error);
-                alert('Failed to process payment. Please try again.');
+            const data = await response.json();
+
+            if (data.success) {
+                // Display confirmation message
+                document.getElementById('confirmationMessage').style.display = 'block';
+                document.getElementById('reservationNumberText').textContent = `Reservation Number: ${data.reservation_number}`;
+                document.getElementById('paymentContainer').style.display = 'none';
+            } else {
+                console.error('Error storing booking details:', data.error);
+                alert('Failed to store booking details. Please try again.');
             }
+        } catch (error) {
+            console.error('Error processing payment:', error);
+            alert('Failed to process payment. Please try again.');
         }
-    </script>
+    }
+
+
     </script>
 </body>
 </html>
+
+
