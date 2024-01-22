@@ -48,27 +48,27 @@ def index():
 def book():
     return render_template('book.html')
 
-@app.route('/availabile_tables', methods = ['GET','POST'])
+@app.route('/available_tables', methods=['POST'])
 def available_tables():
     try:
         # Assume the user has submitted a form with date and time_slot data
-        user_selected_date = request.form.get('date')
-        user_selected_time_slot = request.form.get('time_slot')
+        data = request.get_json()  # Use get_json to parse JSON data
+        user_selected_date = data.get('date')
+        user_selected_time_slot = data.get('time_slot')
 
         # Fetch availability data for the selected date from MongoDB
         availability_data = availability_collection.find_one({'date': user_selected_date})
 
         if availability_data and user_selected_time_slot in availability_data:
-            # Send available tables for the selected time slot to the frontend
+            # Send available tables count for the selected time slot to the frontend
             return jsonify({'available_tables': availability_data[user_selected_time_slot]})
         else:
-            return jsonify({'error': 'Availability data not found for the selected date or time slot'})
+            return jsonify({'error': f'Availability data not found for the selected date or time slot: {user_selected_time_slot}'})
 
     except Exception as e:
         return jsonify({'error': f'Error fetching availability data: {str(e)}'})
 
 
-# Function to adjust tables based on bookings
 def adjust_tables(booking_id, requested_tables):
     try:
         # Update booking with the new table count
@@ -96,11 +96,12 @@ def get_dates():
     available_dates = get_consecutive_dates()  # Use the same function as in populate_plots
     return jsonify({'available_dates': available_dates})
 
-@app.route('/store_bookings', methods = ['GET', 'POST'])
+@app.route('/store_bookings', methods=['POST'])
 def store_bookings():
     try:
         # Get booking details from the request
         booking_details = request.get_json()
+        print(booking_details)
 
         # Increment reservation number
         last_reservation = bookings_collection.find_one(sort=[("reservation_number", -1)])
@@ -118,16 +119,19 @@ def store_bookings():
         booking_time_slot = booking_details["time_slot"].lower()
         requested_tables = booking_details["tables"]
 
-        availability_collection.update_one(
-            {'date': booking_date},
-            {'$inc': {booking_time_slot: -requested_tables}}
-        )
+        result = adjust_tables(booking_id, requested_tables)
 
-        return jsonify({'success': 'Booking details stored successfully', 'booking_id': str(booking_id)})
+        if 'error' in result:
+            # Log the error and return an error response
+            print(f'Error adjusting tables: {result["error"]}')
+            return jsonify({'error': f'Error adjusting tables: {result["error"]}'})
+        else:
+            return jsonify({'success': 'Booking details stored successfully', 'booking_id': str(booking_id),'reservation_number': reservation_number})
 
     except Exception as e:
+        # Log the exception and return an error response
+        print(f'Error storing booking details: {str(e)}')
         return jsonify({'error': f'Error storing booking details: {str(e)}'})
-
 
 if __name__ == '__main__':
     app.run(debug=True)
