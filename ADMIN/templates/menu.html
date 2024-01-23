@@ -1,0 +1,193 @@
+<!-- menu.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/menustyles.css') }}">
+    <title>Cafe Menu</title>
+</head>
+<body>
+    <header style="background-image: url('{{ url_for('static', filename='imgvid/header.jpg') }}');">
+
+        <h1>MENU</h1>
+    </header>
+
+    <section class="menu-category">
+        <h2>HOT BEVERAGES</h2>
+        <div class="menu-item">
+            <span class="item-name">ESPRESSO</span>
+            <span class="item-price">250</span>
+        </div>
+        <div class="menu-item">
+            <span class="item-name">CAPUCCINO</span>
+            <span class="item-price">250</span>
+        </div>
+        <div class="menu-item">
+            <span class="item-name">FLAT WHITE</span>
+            <span class="item-price">250</span>
+        </div>
+        <div class="menu-item">
+            <span class="item-name">MOCHA</span>
+            <span class="item-price">250</span>
+        </div>
+        <div class="menu-item">
+            <span class="item-name">VANILLA LATTE</span>
+            <span class="item-price">250</span>
+        </div>
+        <div class="menu-item">
+            <span class="item-name">HAZLENUT LATTE</span>
+            <span class="item-price">250</span>
+        </div>
+        <div class="menu-item">
+            <span class="item-name">VANILLA HAZELNUT LATTE</span>
+            <span class="item-price">250</span>
+        </div>
+        <div class="menu-item">
+            <span class="item-name">BLACK TEA</span>
+            <span class="item-price">180</span>
+        </div>
+        <div class="menu-item">
+            <span class="item-name">GREEN TEA</span>
+            <span class="item-price">180</span>
+        </div>
+
+        <!-- Add more drink items as needed -->
+    </section>
+
+    <section class="menu-category">
+        <h2>COLD BEVERAGES</h2>
+        <div class="menu-item">
+            <span class="item-name">CLASSIC COLD COFFEE</span>
+            <span class="item-price">200</span>
+        </div>
+        <div class="menu-item">
+            <span class="item-name">ICED LATTE</span>
+            <span class="item-price">250</span>
+        </div>
+        <div class="menu-item">
+            <span class="item-name">AMERICANO</span>
+            <span class="item-price">250</span>
+        </div>
+        <div class="menu-item">
+            <span class="item-name">CHOCOLATE FRAPPE</span>
+            <span class="item-price">250</span>
+        </div>
+        <div class="menu-item">
+            <span class="item-name">ICED VANILLA LATTE</span>
+            <span class="item-price">250</span>
+        </div>
+        <div class="menu-item">
+            <span class="item-name">HAZLENUT LATTE</span>
+            <span class="item-price">250</span>
+        </div>
+        <div class="menu-item">
+            <span class="item-name">LEMON ICED TEA</span>
+            <span class="item-price">250</span>
+        </div>
+        <div class="menu-item">
+            <span class="item-name">PEACH ICED TEA</span>
+            <span class="item-price">250</span>
+        </div>
+
+    </section>
+
+    <section class="menu-category">
+        <h2>MUFFINS</h2>
+        <div class="menu-item">
+            <span class="item-name">CHOCOLATE CHIP</span>
+            <span class="item-price">200</span>
+        </div>
+        <div class="menu-item">
+            <span class="item-name">DOUBLE CHOCOLATE CHIP</span>
+            <span class="item-price">250</span>
+        </div>
+        <div class="menu-item">
+            <span class="item-name">VANILLA WALNUT</span>
+            <span class="item-price">250</span>
+        </div>
+        <div class="menu-item">
+            <span class="item-name">BLUE BERRY</span>
+            <span class="item-price">250</span>
+        </div>
+        <div class="menu-item">
+            <span class="item-name">CUSTARD FILLED</span>
+            <span class="item-price">250</span>
+        </div>
+    </section>
+
+    <section class="menu-category">
+        <h2>CROISSANTS</h2>
+        <div class="menu-item">
+            <span class="item-name">CHOCOLATE FILLED</span>
+            <span class="item-price">200</span>
+        </div>
+        <div class="menu-item">
+            <span class="item-name">CLASSIC BUTTER CROISSANT</span>
+            <span class="item-price">250</span>
+        </div>
+        <div class="menu-item">
+            <span class="item-name">WITH CHEESE</span>
+            <span class="item-price">250</span>
+        </div>
+        <div class="menu-item">
+            <span class="item-name">NUTELLA FILLED</span>
+            <span class="item-price">250</span>
+        </div>
+        <div class="menu-item">
+            <span class="item-name">JAM FILLED</span>
+            <span class="item-price">250</span>
+        </div>
+    </section>
+
+    <section class="menu-category">
+        <h2>SANDWICH</h2>
+        <div class="menu-item">
+            <span class="item-name">EGG AND CHEESE</span>
+            <span class="item-price">200</span>
+        </div>
+        <div class="menu-item">
+            <span class="item-name">TURKEY CLUB</span>
+            <span class="item-price">250</span>
+        </div>
+        <div class="menu-item">
+            <span class="item-name">GRILLED CHICKEN</span>
+            <span class="item-price">250</span>
+        </div>
+        <div class="menu-item">
+            <span class="item-name">VEGGIE</span>
+            <span class="item-price">250</span>
+        </div>
+        <div class="menu-item">
+            <span class="item-name">SHREDDED LAMB</span>
+            <span class="item-price">250</span>
+        </div>
+    </section>
+
+    <section class="menu-category">
+        <h2>SALAD</h2>
+        <div class="menu-item">
+            <span class="item-name">GREEK</span>
+            <span class="item-price">200</span>
+        </div>
+        <div class="menu-item">
+            <span class="item-name">CAESAR</span>
+            <span class="item-price">250</span>
+        </div>
+        <div class="menu-item">
+            <span class="item-name">SMOKED BEETROOT</span>
+            <span class="item-price">250</span>
+        </div>
+        <div class="menu-item">
+            <span class="item-name">CHICKEN CAESAR</span>
+            <span class="item-price">250</span>
+        </div>
+    </section>
+
+
+    <footer>
+        <p>&copy; 2024 Kaffeine. All rights reserved.</p>
+    </footer>
+</body>
+</html>
+

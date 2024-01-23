@@ -1,0 +1,71 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center horizontally */
+}
+
+.top-bar {
+    background-color: #333;
+    color: #fff;
+    padding: 15px;
+    text-align: center;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.top-bar a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    align-items: center;
+    padding: 20px;
+    position: relative; /* Add relative positioning */
+    z-index: 1; /* Adjust z-index to ensure content is above sidebar */
+}
+
+label,
+input,
+button {
+    margin-bottom: 15px; /* Increase this value to adjust the space */
+}
+
+/* Center the search button */
+#searchButton {
+    margin-top: 10px;
+}
+
+table {
+    border-collapse: collapse;
+    width: 70%;
+    margin-top: 20px; /* Adjust as needed */
+}
+
+th,
+td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+/* Center the heading */
+h1 {
+    padding: 20px;
+    text-align: center;
+    color: #01003f;
+    margin: 0; /* Remove the previous margin */
+}
