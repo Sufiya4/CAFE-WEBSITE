@@ -1,0 +1,39 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: rgb(239, 239, 235);
+    color: black;
+}
+
+header {
+    
+    background-size: cover;
+    background-position: center;
+    color: white;
+    text-align: left;
+    padding: 40px;
+    height: 30vh;
+}
+
+.menu-category {
+    margin: 20px;
+    padding-left: 25%;
+    padding-right:30%;
+}
+
+.menu-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    /*position: fixed;*/
+    bottom: 0;
+    width: 100%;
+}

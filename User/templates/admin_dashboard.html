@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kaffeine Booking History</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/adminstyles.css') }}">
+</head>
+<body>
+    <div class="top-bar">
+        <h1>Kaffeine Booking History</h1>
+        <a href="#">Logout</a>
+    </div>
+
+    <div class="main-content">
+        <label for="searchDate">Select Date:</label>
+        <select id="searchDate"></select>
+        <button id="searchButton">Search</button>
+
+        <table>
+            <tr>
+                <th>Booking Date</th>
+                <th>Booking Time</th>
+                <th>Plot ID</th>
+                <th>Hours</th>
+                <th>Total Amount in rupees</th>
+                <th>Payment Method</th>
+                <th>User Email</th>
+                <th>Vehicle Number</th>
+            </tr>
+        </table>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Fetch available dates using AJAX
+            fetch('/get_available_dates', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                const availableDatesDropdown = document.getElementById('searchDate');
+
+                // Clear existing options before adding new ones
+                availableDatesDropdown.innerHTML = '';
+
+                // Populate dropdown options with available dates
+                data.available_dates.forEach(date => {
+                    const option = document.createElement('option');
+                    option.value = date;
+                    option.textContent = date;
+                    availableDatesDropdown.appendChild(option);
+                });
+            })
+            .catch(error => {
+                console.error(error);
+            });
+
+            // Event listener for the search button
+            const searchButton = document.getElementById('searchButton');
+            searchButton.addEventListener('click', () => {
+                const searchDate = document.getElementById('searchDate').value;
+
+                // Fetch booking history data based on the selected date using AJAX
+                fetch(`/admin_bookings?date=${searchDate}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                })
+                .then(response => response.json())
+                .then(bookingHistory => {
+                    const table = document.querySelector('table');
+                    // Clear existing table rows before adding new data
+                    while (table.rows.length > 1) {
+                        table.deleteRow(1);
+                    }
+
+                    if (bookingHistory.length === 0) {
+                        const noDataMessageRow = table.insertRow();
+                        const noDataMessageCell = noDataMessageRow.insertCell();
+                        noDataMessageCell.colSpan = 8; // Span all columns
+                        noDataMessageCell.textContent = 'No booking data found.';
+                    } else {
+                        bookingHistory.forEach(booking => {
+                            const row = table.insertRow();
+                            // Insert booking data into cells
+                            const bookingDateCell = row.insertCell();
+                            bookingDateCell.textContent = booking.bookingDate;
+                            const bookingTimeCell = row.insertCell();
+                            bookingTimeCell.textContent = booking.bookingTime;
+                            const PlotIdCell = row.insertCell();
+                            PlotIdCell.textContent = booking.plotId;
+                            const HoursCell = row.insertCell();
+                            HoursCell.textContent = booking.hours;
+                            const TotalamountCell = row.insertCell();
+                            TotalamountCell.textContent = booking.totalAmount;
+
+                            const paymentMethodCell = row.insertCell();
+                            paymentMethodCell.textContent = booking.paymentMethod;
+                            const useremail = row.insertCell();
+                            useremail.textContent = booking.userEmail;
+                            const vehicleNumberCell = row.insertCell();
+                            vehicleNumberCell.textContent = booking.vehicleNumber;
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
