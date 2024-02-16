@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles2.css') }}">
+    <title>About Us</title>
+</head>
+<body>
+
+    <header>
+        <h1>ABOUT US</h1>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('home')}}">Home</a></li>
+                <li><a href="#">About Us</a></li>
+                <li><a href="/menu" target="_blank">Menu</a></li>
+                <li><a href="{{ url_for('admin_dashboard')}}">Book a Table</a></li>
+                <li><a href="{{ url_for('signin')}}">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+    <br><br><br>
+
+    <section class="about-section">
+        <div class="about-content">
+            <div class="text-content">
+                <h2>Our Cafe</h2>
+                <p style="font-size: larger;">Welcome to KAFFEINE, a serene oasis that transcends the ordinary, inviting you to experience the perfect blend of minimalism and tranquility. Our cafe is more than just a place to savor exceptional coffee and delectable food; it's a refuge designed for relaxation and inspiration. Nestled amidst lush greenery, the ambiance of our space is reminiscent of a tranquil resort, offering a respite for those seeking solace or a conducive environment to work. At Kaffeine, we take pride in curating an atmosphere that fosters both productivity and leisure, inviting you to savor every sip and savor the simple joys of life. Welcome to a space where minimalism meets indulgence, and every moment is an opportunity to recharge and reconnect.</p>
+            </div>
+            <div class="image-content">
+                <img src="{{ url_for('static', filename='imgvid/img1.jpg') }}" alt="Cafe Image">
+            </div>
+        </div>
+    </section>
+
+    <section class="about-section">
+        <div class="about-content">
+            <div class="text-content">
+                <h2>Our Story</h2>
+                <p style="font-size: larger;">In the vibrant year of 2023, fueled by a shared passion for creating a haven of tranquility and exceptional coffee, we embarked on the journey of bringing our dream café to life. Envisioning a space that seamlessly combined inviting ambiance, the comforting aroma of freshly brewed coffee, and a touch of nature with abundant greenery, we dedicated an entire year to meticulously refining our ideas. Finally, in 2024, our vision became a reality as we proudly opened the doors to our café. Beyond the aromatic brews and delectable treats, our establishment boasts a positive atmosphere, thanks to the incredible team of baristas who not only excel in crafting impeccable coffee but are also genuinely wonderful individuals. Complementing our commitment to quality, our kitchen is helmed by skilled cooks who prepare freshly made delights, using organically produced ingredients. With each cup of coffee and every bite, we strive to offer a slice of serenity, making our café not just a place to savor exceptional flavors but a refuge for those seeking peace and quiet amidst the daily hustle and bustle.</p>
+            </div>
+            <div class="image-content">
+                <img src="{{ url_for('static', filename='imgvid/cafeimg.jpg')}}" alt="Cafe Image">
+            </div>
+        </div>
+    </section>
+
+    <section class="about-section">
+        <div class="about-content">
+            <div class="text-content">
+                <h2>KAFFIENE experience</h2>
+                <p style="font-size: larger;">At KAFFIENE, we take pride in curating an exceptional coffee experience. Our skilled baristas source the finest coffee beans from around the world, ensuring that every cup tells a unique tale of flavor and quality. From classic espresso drinks to handcrafted specialty beverages, our menu is a celebration of the artistry that goes into making the perfect cup.</p>
+            </div>
+            <div class="image-content">
+                <img src="{{ url_for('static', filename='imgvid/img2.jpg') }}" alt="Cafe Image">
+            </div>
+        </div>
+    </section>
+
+    <section class="about-section">
+        <div class="about-content">
+            <div class="text-content">
+                <h2>Community and Sustainability</h2>
+                <p style="font-size: larger;">Beyond serving great coffee, KAFFIENE is committed to fostering a sense of community and giving back to the environment. We source our coffee beans responsibly, supporting sustainable and ethical practices. Our cafe is a place where friendships are formed, ideas are exchanged, and local initiatives are supported.</p>
+            </div>
+            <div class="image-content">
+                <img src="{{ url_for('static', filename='imgvid/barista.jpg') }}" alt="Cafe Image">
+            </div>
+        </div>
+    </section>
+
+    <section class="about-section">
+        <div class="about-content">
+            <div class="text-content">
+                <h2>Visit Us</h2>
+                <p style="font-size: larger;">Whether you're a coffee connoisseur or just looking for a cozy spot to unwind, KAFFIENE invites you to join us on a journey of taste and togetherness. Step into our welcoming space, savor the aroma, and let the comforting ambiance of KAFFIENE become your go-to spot for moments of joy.
+
+                    <p style="font-size: larger;"></p>Thank you for being a part of our story. We look forward to sharing many more cups of happiness with you!</p>
+
+                    <p style="font-size: larger;"></p>Cheers,</p>
+                    <p style="font-size: larger;"></p>The KAFFIENE Team</p>
+            </div>
+            <div class="image-content">
+
+            </div>
+        </div>
+    <section>
+
+    <footer>
+        <p>&copy; 2024 Kaffeine. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>

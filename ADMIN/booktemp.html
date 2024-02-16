@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kaffeine - Table Reservation</title>
+    <style>
+        body {
+            font-family: 'Raleway', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('https://archello.s3.eu-central-1.amazonaws.com/images/2023/09/25/k-studio-casa-cook-chania--domes-zeen-chania--private-houses-archello.1695619661.8884.jpg') center/cover no-repeat fixed;
+        }
+
+        header {
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            text-align: center;
+            padding: 1em;
+        }
+
+        section {
+            margin: 20px;
+            color: #333;
+        }
+
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s ease-in-out;
+        }
+
+        form:hover {
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #333;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #555;
+        }
+
+        .confirmation,
+        .payment-container {
+            max-width: 400px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            display: none;
+        }
+
+        .confirmation h2,
+        .payment-container h2 {
+            color: #333;
+        }
+
+        .confirmation li {
+            list-style: none;
+        }
+
+        .confirmation li a {
+            text-decoration: none;
+            color: white;
+            display: inline-block;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            background-color: #333;
+        }
+
+        .payment-methods {
+            display: flex;
+            flex-direction: column;
+            margin-top: 20px;
+        }
+
+        .payment-method {
+            margin-bottom: 10px;
+        }
+
+        .payment-method input {
+            margin-right: 5px;
+        }
+
+        .payment-container input[type="radio"] {
+            display: none;
+        }
+
+        .payment-container label {
+            cursor: pointer;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            transition: background-color 0.3s ease-in-out;
+            display: inline-block;
+        }
+
+        .payment-container input[type="radio"]:checked+label {
+            background-color: #333;
+            color: white;
+        }
+
+        .payment-container p {
+            margin-top: 10px;
+            color: #333;
+        }
+
+        .payment-container button {
+            background-color: #333;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .payment-container button:hover {
+            background-color: #555;
+        }
+
+        .bill-details {
+            margin-top: 20px;
+        }
+
+        .bill-details p {
+            color: #333;
+        }
+
+        .time-slot {
+            display: block;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>Crafting Memories, One Table at a Time – Book Yours Now!</h1>
+    </header>
+
+    <section>
+        <div id="formContainer">
+            <form id="bookingForm">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+
+                <label for="phone">Phone:</label>
+                <input type="tel" id="phone" name="phone" required>
+
+                <label for="booking-date">Date:</label>
+                <select id="booking-date" required></select>
+
+                <!-- Time slots with lowercase values -->
+                <div class="time-slot">
+                    <label for="morning">Morning (10:00 AM - 12:00 PM):</label>
+                    <input type="radio" id="morning" name="time" value="morning" required>
+                </div>
+
+                <div class="time-slot">
+                    <label for="brunch">Brunch (12:00 PM - 2:00 PM):</label>
+                    <input type="radio" id="brunch" name="time" value="brunch" required>
+                </div>
+
+                <div class="time-slot">
+                    <label for="lunch">Lunch (2:00 PM - 4:00 PM):</label>
+                    <input type="radio" id="lunch" name="time" value="lunch" required>
+                </div>
+
+                <div class="time-slot">
+                    <label for="evening">Evening (4:00 PM - 6:00 PM):</label>
+                    <input type="radio" id="evening" name="time" value="evening" required>
+                </div>
+
+                <div class="time-slot">
+                    <label for="night">Night (6:00 PM - 8:00 PM):</label>
+                    <input type="radio" id="night" name="time" value="night" required>
+                </div>
+
+                <label for="tables">Tables:</label>
+
+                <!-- Button to fetch available tables -->
+                <button type="button" onclick="fetchAvailableTables()">Check Availability</button>
+
+                <!-- Display the count of tables -->
+                <span id="tablesCount" data-tables-count="1" style="display: none">1</span> tables (Max: <span id="maxTables" style="display: none">5</span>)
+                <button type="button"  id="decreaseTables" style="display: none">-</button>
+                <button type="button" id="increaseTables" style="display: none">+</button>
+                <button type="button" onclick="showPayment()" id="showPayment" style="display: none">Book Table</button>
+            </form>
+        </div>
+
+        <div class="confirmation" id="confirmationMessage">
+            <h2>Thanks for booking a table!</h2>
+            <p id="reservationNumberText"></p>
+            <p>We look forward to serving you.</p>
+            <li><a href="{{ url_for('home')}}">Explore our homepage by clicking here</a></li>
+        </div>
+
+        <div class="payment-container" id="paymentContainer">
+            <div class="payment-form">
+                <span class="close-payment" onclick="closePayment()">X</span>
+                <h2>Reservation Payment</h2>
+
+                <div class="bill-details" id="billDetails"></div>
+
+                <div class="payment-methods">
+                    <div class="payment-method">
+                        <input type="radio" id="creditCard" name="paymentMethod" value="creditCard">
+                        <label for="creditCard">Credit Card</label>
+                    </div>
+
+                    <div class="payment-method">
+                        <input type="radio" id="paypal" name="paymentMethod" value="paypal">
+                        <label for="paypal">PayPal</label>
+                    </div>
+
+                    <div class="payment-method">
+                        <input type="radio" id="googlePay" name="paymentMethod" value="googlePay">
+                        <label for="googlePay">Google Pay</label>
+                    </div>
+                </div>
+
+                <button type="button" onclick="processPayment()">Process Payment</button>
+            </div>
+        </div>
+
+    </section>
+
+
+    <script>
+            document.getElementById('decreaseTables').addEventListener('click', decreaseTables);
+            document.getElementById('increaseTables').addEventListener('click', increaseTables);
+            document.getElementById('showPayment').addEventListener('click', showPayment);
+            fetch('/available_dates')
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    updateAvailableDates(data.available_dates);
+                })
+                .catch(error => {
+                    console.error('Error fetching available dates:', error);
+                });
+
+                function updateAvailableDates(dates) {
+                    document.getElementById('booking-date').innerHTML = dates.map(date => `<option value="${date}">${date}</option>`).join('');
+                }
+
+            // Function to increase the number of tables
+            function increaseTables() {
+                const tablesCountElement = document.getElementById('tablesCount');
+                const maxTables = parseInt(tablesCountElement.getAttribute('max'));
+
+                let currentTables = parseInt(tablesCountElement.getAttribute('data-tables-count'));
+                if (currentTables < maxTables) {
+                    currentTables++;
+                    tablesCountElement.setAttribute('data-tables-count', currentTables);
+                    tablesCountElement.textContent = currentTables;
+                }
+            }
+
+            // Function to decrease the number of tables
+            function decreaseTables() {
+                const tablesCountElement = document.getElementById('tablesCount');
+
+                let currentTables = parseInt(tablesCountElement.getAttribute('data-tables-count'));
+                if (currentTables > 1) {
+                    currentTables--;
+                    tablesCountElement.setAttribute('data-tables-count', currentTables);
+                    tablesCountElement.textContent = currentTables;
+                }
+            }
+
+            // Function to fetch available tables from MongoDB Atlas
+            async function fetchAvailableTables() {
+                try {
+
+                    const date = document.getElementById('booking-date').value;
+                    const timeSlot = document.querySelector('input[name="time"]:checked').value;
+                    console.log(date)
+                    console.log(timeSlot)
+                     // Validate user details
+                    const name = document.getElementById('name').value;
+                    const email = document.getElementById('email').value;
+                    const phone = document.getElementById('phone').value;
+
+                    if (!name || !email || !phone || !date || !timeSlot) {
+                        alert('Please enter all details before checking availability.');
+                        return;
+                    }
+                    const response = await fetch('/available_tables', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                                date: date,
+                                time_slot: timeSlot,
+                        }),
+                    });
+
+                    const data = await response.json();
+                    console.log(data);
+
+                    if (data.available_tables !== undefined) {
+                        document.getElementById('maxTables').textContent = data.available_tables;
+                        document.getElementById('tablesCount').textContent = 1;
+                        document.getElementById('tablesCount').setAttribute('max', data.available_tables);
+                        document.getElementById('tablesCount').style.display = 'inline-block';
+                        document.getElementById('maxTables').style.display = 'inline-block';
+                        document.getElementById('decreaseTables').style.display = 'inline-block';
+                        document.getElementById('increaseTables').style.display = 'inline-block';
+                        document.getElementById('showPayment').style.display = 'inline-block';
+
+                    } else {
+                        alert(`Failed to fetch available tables for the selected time slot. Please try again.`);
+                    }
+                } catch (error) {
+                    console.error('Error fetching available tables:', error);
+                    alert('Failed to fetch available tables. Please try again.');
+                }
+            }
+
+
+            // Function to update table data on the form
+            async function updateTableData() {
+                try {
+                    const date = document.getElementById('booking-date').value;
+                    const timeSlot = document.querySelector('input[name="time"]:checked').value;
+
+                    const { availableTables, maxTables } = await fetchAvailableTables(date, timeSlot);
+
+                    document.getElementById('tablesCount').textContent = 1;
+                    document.getElementById('maxTables').textContent = availableTables;
+
+                    // Set the maximum value for the number of tables
+                    document.getElementById('tablesCount').setAttribute('max', availableTables);
+
+                } catch (error) {
+                    console.error('Error updating table data:', error);
+                }
+            }
+            // Function to display the payment container
+            async function showPayment() {
+                const tablesCount = parseInt(document.getElementById('tablesCount').getAttribute('data-tables-count'));
+                if (!tablesCount) {
+                    alert('Please check availability before proceeding to payment.');
+                    return;
+                }
+
+                // Validate user details
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+                const phone = document.getElementById('phone').value;
+
+                if (!name || !email || !phone) {
+                    alert('Please enter all details before proceeding to payment.');
+                    return;
+                }
+                document.getElementById('formContainer').style.display = 'none';
+                document.getElementById('paymentContainer').style.display = 'block';
+                const tablesCount = parseInt(document.getElementById('tablesCount').getAttribute('data-tables-count'));
+                console.log(tablesCount);
+                // Display reservation bill
+                const price = 150; // Adjust pricing based on your requirements
+                var price1 = 150 * tablesCount;
+                const billDetails = document.getElementById('billDetails');
+                billDetails.innerHTML = `<p>Reservation Bill: Rs${price1} ${tablesCount}</p>`;
+            }
+
+            // Function to close the payment container
+            function closePayment() {
+                document.getElementById('paymentContainer').style.display = 'none';
+                document.getElementById('formContainer').style.display = 'block';
+            }
+
+            // Function to process payment and display confirmation
+            async function processPayment() {
+
+                    const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked');
+                    if (!paymentMethod) {
+                        alert('Please select a payment method before processing payment.');
+                        return;
+                    }
+
+                    const date = document.getElementById('booking-date').value;
+                    const timeSlot = document.querySelector('input[name="time"]:checked').value;
+                    const tablesCount = parseInt(document.getElementById('tablesCount').getAttribute('data-tables-count'));
+                    console.log(tablesCount)
+
+                    // After payment is processed, call the store_booking route
+                    const bookingDetails = {
+                        name: document.getElementById('name').value,
+                        email: document.getElementById('email').value,
+                        phone: document.getElementById('phone').value,
+                        date: date,
+                        time_slot: timeSlot,
+                        tables: tablesCount,
+                        payment_method: paymentMethod,  // Use the actual tables count
+                    };
+
+            const response = await fetch('/store_bookings', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(bookingDetails),
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                // Display confirmation message
+                document.getElementById('confirmationMessage').style.display = 'block';
+                document.getElementById('reservationNumberText').textContent = `Reservation Number: ${data.reservation_number}`;
+                document.getElementById('paymentContainer').style.display = 'none';
+            } else {
+                console.error('Error storing booking details:', data.error);
+                alert('Failed to store booking details. Please try again.');
+            }
+        } catch (error) {
+            console.error('Error processing payment:', error);
+            alert('Failed to process payment. Please try again.');
+        }
+    }
+
+
+    </script>
+</body>
+</html>
+

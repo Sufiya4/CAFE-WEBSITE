@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cafe Booking History</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/adminstyles.css') }}">
+    <style>
+        body {
+            background-color: rgb(239, 239, 235);
+            color: #3e2723;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            overflow-x: hidden;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 15px;
+            text-align: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        nav ul li {
+            margin-right: 20px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #fff;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        nav ul li a:hover {
+            color: rgb(238, 238, 193);
+        }
+
+        .main-content {
+            margin-top: 150px;
+            margin: 130px 60px 60px; /* Adjusted margin to accommodate the fixed top bar */
+        }
+
+        label, button {
+            margin-right: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            overflow-x: auto; /* Enable horizontal scrolling for the table */
+        }
+
+        th, td {
+            border: 1px solid #795548; /* Brown border for cells */
+            text-align: left;
+            padding: 12px; /* Increased padding for better spacing */
+            white-space: nowrap; /* Prevent text wrapping */
+        }
+
+        th {
+            background-color: #333; /* Dark brown background for header */
+            color: #fff; /* White text color for header */
+        }
+
+        .no-data-message {
+            font-style: italic;
+            color: #888888;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Cafe Booking History</h1>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('home')}}">Home</a></li>
+                <li><a href="{{ url_for('aboutus2')}}">About Us</a></li>
+                <li><a href="{{ url_for('menu')}}" target="_blank">Menu</a></li>
+                <li><a href="#">Booking History</a></li>
+                <li><a href="{{ url_for('signin')}}">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="main-content">
+        <label for="searchDate">Select Date:</label>
+        <select id="searchDate"></select>
+        <button id="searchButton">Search</button>
+
+        <div style="overflow-x:auto;">
+            <table id="bookingTable">
+                <tr>
+                    <th>Email</th>
+                    <th>Name</th>
+                    <th>Date</th>
+                    <th>Number of Tables</th>
+                    <th>Total Amount</th>
+                    <th>Time Slot</th>
+                    <th>Payment Method</th>
+                </tr>
+            </table>
+        </div>
+
+        <div id="noDataMessage" class="no-data-message"></div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const searchButton = document.getElementById('searchButton');
+            const searchDateDropdown = document.getElementById('searchDate');
+            const bookingTable = document.getElementById('bookingTable');
+            const noDataMessage = document.getElementById('noDataMessage');
+
+            // Fetch available dates using AJAX when the page loads
+            fetch('/get_available_dates', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Clear existing options before adding new ones
+                searchDateDropdown.innerHTML = '';
+
+                // Populate date dropdown with available dates
+                data.available_dates.forEach(date => {
+                    const option = document.createElement('option');
+                    option.value = date;
+                    option.textContent = date;
+                    searchDateDropdown.appendChild(option);
+                });
+            })
+            .catch(error => {
+                console.error(error);
+            });
+
+            // Event listener for the search button
+            searchButton.addEventListener('click', () => {
+                const searchDate = searchDateDropdown.value;
+
+                // Ensure that a date is selected before making the request
+                if (!searchDate) {
+                    alert('Please select a date.');
+                    return;
+                }
+
+                // Fetch admin booking history data based on the selected date using AJAX
+                fetch(`/admin_bookings?date=${searchDate}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                })
+                .then(response => response.json())
+                .then(bookingHistory => {
+                    // Clear existing table rows (excluding header)
+                    while (bookingTable.rows.length > 1) {
+                        bookingTable.deleteRow(1);
+                    }
+
+                    if (bookingHistory.length === 0) {
+                        noDataMessage.textContent = 'No booking data found.';
+                    } else {
+                        noDataMessage.textContent = 'Booking Data Found.';
+                        bookingHistory.forEach(booking => {
+                            const row = bookingTable.insertRow();
+                            // Insert booking data into cells
+                            row.insertCell().textContent = booking.email;
+                            row.insertCell().textContent = booking.name;
+                            row.insertCell().textContent = booking.date;
+                            row.insertCell().textContent = booking.tables;
+                            row.insertCell().textContent = booking.tables * 100;
+                            row.insertCell().textContent = booking.time_slot;
+                            row.insertCell().textContent = booking.payment_method;
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,132 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cafe Website</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/stylesindex.css') }}">
+</head>
+<body>
+
+    <header>
+        <h1>KAFFEINE (ADMIN)</h1>
+        <nav>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="{{ url_for('aboutus2')}}">About Us</a></li>
+                <li><a href="{{ url_for('menu')}}" target="_blank">Menu</a></li>
+                <li><a href="{{ url_for('admin_dashboard')}}">Booking Histsory</a></li>
+                <li><a href="{{ url_for('signin')}}">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="home">
+        <h2>For those who love coffee and quiet.</h2>
+        <p>Join us for a delightful culinary experience in a tranquil atmosphere.</p>
+
+        <video autoplay muted loop>
+            <source src="{{ url_for('static', filename='imgvid/bvid2.mp4') }}" type="video/mp4">
+        </video>
+
+        <div class="imagescontainer">
+            <img class="images" src="{{ url_for('static', filename='imgvid/coffee2.jpg') }}" alt="Cafe Interior">
+            <!--<img class= "images" src="imgvid/cafe2.jpg" alt="Cafe Inter{{ url_for('static', filename='imgvid/coffee2.jpg') }}ior">
+            <img class = "images" src="imgvid/cafe3.jpg" alt="Cafe Interior">
+            <img class = "images" src="imgvid/croissants.jpg" alt="Cafe Interior">
+            <img class = "images" src="imgvid/coffee1.jpg" alt="Cafe Interior">-->
+        </div>
+        <br>
+
+        <div class="image-container">
+            <div class="image-loop">
+              <img src="{{ url_for('static', filename='imgvid/cafe1.jpg') }}" alt="Image 1">
+              <img src="{{ url_for('static', filename='imgvid/cafe2.jpg') }}" alt="Image 2">
+              <img src="{{ url_for('static', filename='imgvid/cafe3.jpgimgvid/cafe1.jpg') }}" alt="Image 3">
+            </div>
+          </div>
+          <br>
+
+          <!--<div class="imagescontainer">
+            <img class= "images" src="imgvid/cafe2.jpg" alt="Cafe Interior">
+            <img class = "images" src="imgvid/cafe3.jpg" alt="Cafe Interior">
+            <img class = "images" src="imgvid/croissants.jpg" alt="Cafe Interior">
+        </div>-->
+    </section>
+
+    <section>
+        <h3 style="color:#333">Our Bestsellers!</h3>
+    </section>
+
+    <div class="card-container">
+        <div class="card">
+            <img src="{{ url_for('static', filename='imgvid/img3.jpg') }}" alt="Image 1">
+            <div class="card-text">
+                <p>Iced Cappucino</p>
+            </div>
+        </div>
+        <div class="card">
+            <img src="{{ url_for('static', filename='imgvid/croissants.jpg') }}" alt="Image 2">
+            <div class="card-text">
+                <p>Classic Butter Croissant</p>
+            </div>
+        </div>
+        <div class="card">
+            <img src="{{ url_for('static', filename='imgvid/muffin.jpg') }}" alt="Image 3">
+            <div class="card-text">
+                <p>Chocolate-chip Muffins</p>
+            </div>
+        </div>
+        <div class="card">
+            <img src="{{ url_for('static', filename='imgvid/macron.jpg') }}" alt="Image 4">
+            <div class="card-text">
+                <p>Caramel Macrons</p>
+            </div>
+        </div>
+    </div>
+    <br>
+    <br>
+
+    <!--
+    <section>
+        <div class="contact-us">
+            <img class="contact-us-img" src="../imgvid/beans.jpg" alt="coffee beans img">
+            <div class="contact-us-text">
+                <h3>CONTACT US</h3>
+            <p><a href="https://www.thirdwavecoffeeroasters.com/">email</a></p>
+            </div>
+        </div>
+    </section>
+
+
+    <br><br>
+-->
+    <footer>
+        <p>&copy; 2024 Kaffeine. All rights reserved.</p>
+    </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+          var hiddenElement = document.querySelector('.card-container');
+          function revealElement() {
+            var scrollPosition = window.scrollY;
+            var elementPosition = hiddenElement.offsetTop;
+            var windowHeight = window.innerHeight;
+
+            if (scrollPosition > elementPosition - windowHeight + 50) {
+              hiddenElement.classList.add('reveal');
+            }
+          }
+
+          // Initial check in case the element is already in the viewport on page load
+          revealElement();
+
+          // Listen for scroll events
+          window.addEventListener('scroll', revealElement);
+        });
+    </script>
+
+</body>
+</html>
